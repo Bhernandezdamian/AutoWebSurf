@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intercambio de URLs</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f3f3f3;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .url-container {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .url-container p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .timer-container {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #dashboard-button {
+      display: block;
+      margin: 0 auto;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    #dashboard-button:hover {
+      background-color: #45a049;
+    }
+  </style>
+
+
+  <button id="dashboard-button">SALIR</button>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+</head>
+
+<body>
+  <div id="url-container"></div>
+  <div id="timer-container"></div>
+  <div id="video-container">
+    <iframe id="url-iframe" style="width: 100%; height: 500px; border: none;" allow="autoplay" src=""></iframe>
+  </div>
+
+  <script>
+    // Tu configuración de Firebase
+    const firebaseConfig = {
+      // Configuración de Firebase
+      apiKey: "AIzaSyDmbjkzrSjpg2Grm5PMROzeJMWGCgWXHuw",
+  authDomain: "proyecto-de-pruba-1.firebaseapp.com",
+  databaseURL: "https://proyecto-de-pruba-1-default-rtdb.firebaseio.com",
+  projectId: "proyecto-de-pruba-1",
+  storageBucket: "proyecto-de-pruba-1.appspot.com",
+  messagingSenderId: "733924276093",
+  appId: "1:733924276093:web:cb4734f589a1773f3e3e14"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Configurar la referencia a la base de datos de Firebase
+    const database = firebase.database();
+    const usersRef = database.ref('users');
+
+    // Función para mostrar las URLs aleatoriamente durante 20 segundos
+    function showRandomUrls(urls) {
+      // Función para obtener un índice aleatorio
+      function getRandomIndex(max) {
+        return Math.floor(Math.random() * max);
+      }
+
+      // Mostrar una URL aleatoria y el temporizador en los contenedores correspondientes
+      function displayRandomUrl() {
+        const urlContainer = document.querySelector('#url-container');
+        const timerContainer = document.querySelector('#timer-container');
+        const urlIframe = document.querySelector('#url-iframe');
+        const videoContainer = document.querySelector('#video-container');
+
+        const randomIndex = getRandomIndex(urls.length);
+        const randomUrl = urls[randomIndex];
+
+        urlContainer.textContent = randomUrl;
+        timerContainer.textContent = 'Tiempo restante: 30 segundos';
+
+        if (isYouTubeUrl(randomUrl)) {
+          const videoId = getYouTubeVideoId(randomUrl);
+          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          urlIframe.src = embedUrl;
+          videoContainer.style.display = 'block';
+        } else if (isTikTokUrl(randomUrl)) {
+          const embedUrl = `https://www.tiktok.com/embed/v2/${getTikTokVideoId(randomUrl)}?autoplay=1`;
+          urlIframe.src = embedUrl;
+          videoContainer.style.display = 'block';
+        } else {
+          urlIframe.src = '';
+          videoContainer.style.display = 'none';
+        }
+
+        // Temporizador de 20 segundos
+        let secondsLeft = 30;
+        const timerInterval = setInterval(() => {
+          secondsLeft--;
+          timerContainer.textContent = `Tiempo restante: ${secondsLeft} segundos`;
+
+          if (secondsLeft <= 0) {
+            clearInterval(timerInterval);
+            displayRandomUrl(); // Mostrar una nueva URL después de 20 segundos
+          }
+        }, 1000);
+      }
+
+      // Mostrar una URL aleatoria inicialmente
+      displayRandomUrl();
+    }
+
+    // Verificar si una URL es de YouTube
+    function isYouTubeUrl(url) {
+      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+/;
+      return youtubeRegex.test(url);
+    }
+
+    // Obtener el ID de video de YouTube desde una URL
+    function getYouTubeVideoId(url) {
+      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11}).*/;
+      const match = url.match(youtubeRegex);
+      if (match && match[4]) {
+        return match[4];
+      }
+      return null;
+    }
+
+    // Verificar si una URL es de TikTok
+    function isTikTokUrl(url) {
+      const tiktokRegex = /^(https?:\/\/)?(www\.)?tiktok\.com\/.*\/video\/(\d+).*/;
+      return tiktokRegex.test(url);
+    }
+
+    // Obtener el ID de video de TikTok desde una URL
+    function getTikTokVideoId(url) {
+      const tiktokRegex = /^(https?:\/\/)?(www\.)?tiktok\.com\/.*\/video\/(\d+).*/;
+      const match = url.match(tiktokRegex);
+      if (match && match[3]) {
+        return match[3];
+      }
+      return null;
+    }
+
+    // Verificar el estado de inicio de sesión del usuario
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // El usuario está autenticado, puedes acceder a los datos de la base de datos aquí
+        const currentUserId = user.uid;
+
+        // Variable para controlar si el usuario está activamente viendo las URLs
+        let isViewingUrls = false;
+
+        // Función para manejar el cambio de visibilidad del documento
+        function handleVisibilityChange() {
+          if (document.visibilityState === 'visible') {
+            isViewingUrls = true;
+            showOtherUsersUrls(currentUserId);
+          } else {
+            isViewingUrls = false;
+            hideUrls();
+          }
+        }
+
+        // Agregar el evento de cambio de visibilidad del documento
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        // Función para mostrar las URLs de los demás usuarios
+        function showOtherUsersUrls(currentUserId) {
+          usersRef.once('value')
+            .then(function(snapshot) {
+              const users = snapshot.val();
+
+              const otherUsersUrls = [];
+              for (const userId in users) {
+                if (userId !== currentUserId) {
+                  const userUrls = users[userId].urls;
+                  if (userUrls) {
+                    const urls = [userUrls.url1, userUrls.url2, userUrls.url3];
+                    otherUsersUrls.push(...urls);
+                  }
+                }
+              }
+
+              if (otherUsersUrls.length > 0) {
+                showRandomUrls(otherUsersUrls);
+              } else {
+                hideUrls();
+              }
+            })
+            .catch(function(error) {
+              console.log(error);
+              alert("Error al obtener las URLs de los demás usuarios");
+            });
+        }
+
+        // Función para ocultar las URLs
+        function hideUrls() {
+          const urlContainer = document.querySelector('#url-container');
+          const timerContainer = document.querySelector('#timer-container');
+          const urlIframe = document.querySelector('#url-iframe');
+          const videoContainer = document.querySelector('#video-container');
+
+          urlContainer.textContent = '';
+          timerContainer.textContent = '';
+          urlIframe.src = '';
+          videoContainer.style.display = 'none';
+        }
+
+        // Mostrar las URLs de los demás usuarios si está activamente viendo las URLs
+        if (document.visibilityState === 'visible') {
+          isViewingUrls = true;
+          showOtherUsersUrls(currentUserId);
+        }
+      } else {
+        // El usuario no está autenticado, redirigir al usuario a la página de inicio de sesión
+        window.location.href = "index.html";
+      }
+    });
+
+    const dashboardButton = document.querySelector('#dashboard-button');
+
+  dashboardButton.addEventListener('click', function() {
+    window.location.href = "dashboard.html";
+  });
+
+
+
+  </script>
+</body>
+
+</html>

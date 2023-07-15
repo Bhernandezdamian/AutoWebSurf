@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="pagina de inicio.css">
+  
+</head>
+
+<body>
+  <form id="signup-form">
+    <input type="text" id="username" placeholder="Nombre de usuario" required>
+    <input type="email" id="signup-email" placeholder="Correo electrónico" required>
+    <input type="password" id="signup-password" placeholder="Contraseña" required>
+    <input type="file" id="profile-picture" accept="image/*" required>
+    <input type="text" id="age" placeholder="Edad">
+    <input type="text" id="country" placeholder="País">
+    <textarea id="interests" placeholder="Intereses"></textarea>
+    <button type="submit">Registrarse</button>
+  </form>
+
+  <div id="success-message" style="display: none; color: green;">
+    Usuario registrado con éxito.
+  </div>
+
+  <form id="password-reset-form">
+    <input type="email" id="reset-email" placeholder="Correo electrónico" required>
+    <button type="submit">Recuperar contraseña</button>
+  </form>
+
+  <form id="login-form">
+    <h2>Iniciar sesión</h2>
+    <input type="email" id="login-email" placeholder="Correo electrónico" required>
+    <input type="password" id="login-password" placeholder="Contraseña" required>
+    <button type="submit">Ingresar</button>
+  </form>
+
+  <div id="error-message" style="display: none; color: red;">
+    Correo electrónico o contraseña incorrectos. Por favor, inténtalo de nuevo.
+  </div>
+
+  <div id="chat-container" style="display: none;">
+    <h2>Chat</h2>
+    <div id="messages-container"></div>
+    <input type="text" id="message-input" placeholder="Escribe tu mensaje">
+    <input type="file" id="image-file" accept="image/*">
+    <button type="button" id="send-button">Enviar</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

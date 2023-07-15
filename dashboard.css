@@ -1,0 +1,187 @@
+/* General Styles */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+h1, h2 {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Header Styles */
+header {
+  background-color: #333;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin-right: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: #555;
+}
+
+#logout-button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Content Styles */
+section {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #333;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+/* URL Form Styles */
+#traffic-exchange {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.url-input {
+  margin-bottom: 20px;
+}
+
+.url-input label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+.url-input input[type="url"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 600px) {
+  header {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  nav ul li {
+    margin-bottom: 5px;
+  }
+
+  #traffic-exchange {
+    max-width: 100%;
+    padding: 10px;
+  }
+  
+  .url-input input[type="url"] {
+    font-size: 14px;
+  }
+
+  button[type="submit"] {
+    font-size: 14px;
+  }
+}
+
+/* Navigation Menu Styles */
+nav {
+  background-color: #333;
+  padding: 10px 20px;
+}
+
+.navigation-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navigation-menu li {
+  margin-right: 10px;
+}
+
+.navigation-menu li:last-child {
+  margin-right: 0;
+}
+
+.navigation-menu li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-menu li a:hover {
+  background-color: #555;
+}

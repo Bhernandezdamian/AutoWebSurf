@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aumenta tus visitas web ahora mismo</title>
+  <link rel="stylesheet" href="tiktok.css">
+  <style>
+    /* Estilo adicional para mostrar y ocultar el formulario */
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Aumenta tus visitas web ahora mismo</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="#"></a></li>
+        <li><a href="#"></a></li>
+        <li><a href="#"></a></li>
+      </ul>
+    </nav>
+    <img src="logo.jpeg" alt="Logo" class="logo-image">
+  </header>
+
+  <section id="hero">
+    <h2>¡Trafico web gratis!</h2>
+    <div class="cta-buttons">
+      <a href="#" class="cta-button" id="register-button">Regístrate ahora</a>
+      <a href="#" class="cta-button" id="login-button">Iniciar sesión</a>
+    </div>
+  </section>
+
+  <section id="video-list">
+    <h3>Videos Recientes</h3>
+    <div class="video-card">
+      <div class="video-thumbnail">
+        <img src="youtube.png" alt="Video Thumbnail">
+        <img src="adsterra.png" alt="Video Thumbnail">
+        <img src="trafic.jpeg" alt="Video Thumbnail">
+      </div>
+      <div class="video-details">
+        <h4></h4>
+        <p>Views: 50000</p>
+        <p></p>
+      </div>
+      <div class="video-actions">
+        <button class="like-button"></button>
+        <button class="share-button"></button>
+      </div>
+    </div>
+    <!-- Otros videos -->
+
+    
+  </section>
+
+  <section id="registration-form" class="hidden">
+    <h3>Registro</h3>
+    <form>
+      <div>
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" placeholder="Ingrese su nombre" required>
+      </div>
+      <div>
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" placeholder="Ingrese su correo electrónico" required>
+      </div>
+      <div>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" placeholder="Ingrese su contraseña" required autocomplete="new-password">
+      </div>
+      <div>
+        <label for="confirm-password">Confirmar contraseña:</label>
+        <input type="password" id="confirm-password" placeholder="Confirme su contraseña" required autocomplete="new-password">
+      </div>
+      <button type="submit">Registrarse</button>
+    </form>
+    <div id="forgot-password">
+      <a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
+    </div>
+  </section>
+
+  <section id="password-recovery" class="hidden">
+    <h3>Recuperar Contraseña</h3>
+    <form id="password-recovery-form">
+      <div>
+        <label for="recovery-email">Correo electrónico:</label>
+        <input type="email" id="recovery-email" placeholder="Ingrese su correo electrónico" required>
+      </div>
+      <button type="submit">Enviar</button>
+    </form>
+    <div id="back-to-login">
+      <a href="#">Volver al inicio de sesión</a>
+    </div>
+  </section>
+
+  <section id="login-form" class="hidden">
+    <h3>Iniciar Sesión</h3>
+    <form>
+      <div>
+        <label for="login-email">Correo electrónico:</label>
+        <input type="email" id="login-email" placeholder="Ingrese su correo electrónico" required>
+      </div>
+      <div>
+        <label for="login-password">Contraseña:</label>
+        <input type="password" id="login-password" placeholder="Ingrese su contraseña" required autocomplete="current-password">
+      </div>
+      <button type="submit">Iniciar sesión</button>
+    </form>
+    <div id="forgot-password">
+      <a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2023 trafico web. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Utiliza la versión 8.x.x del SDK de Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script>
+    // Your Firebase configuration
+    const firebaseConfig = {
+      // Firebase configuration details
+      apiKey: "AIzaSyDmbjkzrSjpg2Grm5PMROzeJMWGCgWXHuw",
+  authDomain: "proyecto-de-pruba-1.firebaseapp.com",
+  databaseURL: "https://proyecto-de-pruba-1-default-rtdb.firebaseio.com",
+  projectId: "proyecto-de-pruba-1",
+  storageBucket: "proyecto-de-pruba-1.appspot.com",
+  messagingSenderId: "733924276093",
+  appId: "1:733924276093:web:cb4734f589a1773f3e3e14"
+    };
+
+    // Firebase initialization
+    firebase.initializeApp(firebaseConfig);
+
+    // Firebase authentication service reference
+    const auth = firebase.auth();
+
+    // Get the links and forms
+    const registerButton = document.querySelector('#register-button');
+    const loginButton = document.querySelector('#login-button');
+    const registrationForm = document.querySelector('#registration-form');
+    const passwordRecoveryForm = document.querySelector('#password-recovery-form');
+    const loginForm = document.querySelector('#login-form');
+    const forgotPasswordButton = document.querySelector('#forgot-password-link');
+    const passwordRecoverySection = document.querySelector('#password-recovery');
+    const heroSection = document.querySelector('#hero');
+    const videoListSection = document.querySelector('#video-list');
+
+    // Add click event to the "Register Now" link
+    registerButton.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default link behavior
+
+      // Hide unwanted sections
+      heroSection.style.display = 'none';
+      videoListSection.style.display = 'none';
+
+      // Show the registration form
+      registrationForm.classList.remove('hidden');
+      registrationForm.style.display = 'block';
+    });
+
+    // Add click event to the "Login" link
+    loginButton.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default link behavior
+
+      // Hide unwanted sections
+      heroSection.style.display = 'none';
+      videoListSection.style.display = 'none';
+
+      // Show the login form
+      loginForm.classList.remove('hidden');
+      loginForm.style.display = 'block';
+    });
+
+    // Add submit event to the registration form
+    registrationForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Get user input values
+      const name = document.querySelector('#name').value;
+      const email = document.querySelector('#email').value;
+      const password = document.querySelector('#password').value;
+      const confirmPassword = document.querySelector('#confirm-password').value;
+
+      // Check if passwords match
+      if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+
+      // Create a reference to Firebase Realtime Database
+      const database = firebase.database();
+      const usersRef = database.ref('users');
+
+      // Create a new user in Firebase Authentication
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(function(userCredential) {
+          // Get the ID of the new user
+          const userId = userCredential.user.uid;
+
+          // Save user data to Realtime Database
+          usersRef.child(userId).set({
+              name: name,
+              email: email
+            })
+            .then(function() {
+              alert("User registered successfully");
+
+              // Automatically sign in the user after registration
+              auth.signInWithEmailAndPassword(email, password)
+                .then(function() {
+                  // User has registered and signed in automatically
+                  // Redirect the user to dashboard.html
+                  window.location.href = "dashboard.html";
+                })
+                .catch(function(error) {
+                  console.log(error);
+                  alert("Error auto signing in");
+                });
+            })
+            .catch(function(error) {
+              console.log(error);
+              alert("Error registering user in the database");
+            });
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert("Error registering user");
+        });
+    });
+
+    // Add submit event to the password recovery form
+    passwordRecoveryForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Get the email entered by the user
+      const recoveryEmail = document.querySelector('#recovery-email').value;
+
+      // Send a password recovery email
+      auth.sendPasswordResetEmail(recoveryEmail)
+        .then(function() {
+          alert("Password recovery email has been sent");
+
+          // Clear the form fields after successful submission
+          passwordRecoveryForm.reset();
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert("Error sending password recovery email");
+        });
+    });
+
+    // Add click event to the "Forgot Password" button
+    forgotPasswordButton.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default button behavior
+
+      // Hide the login form
+      loginForm.style.display = 'none';
+
+      // Show the password recovery section
+      passwordRecoverySection.classList.remove('hidden');
+      passwordRecoverySection.style.display = 'block';
+    });
+
+    // Add submit event to the login form
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Get the email and password entered by the user
+      const email = document.querySelector('#login-email').value;
+      const password = document.querySelector('#login-password').value;
+
+      // Authenticate the user using Firebase Authentication
+      auth.signInWithEmailAndPassword(email, password)
+        .then(function(userCredential) {
+          // User has logged in successfully
+          alert("Login successful");
+
+          // Clear the form fields after successful login
+          loginForm.querySelector('#login-email').value = '';
+          loginForm.querySelector('#login-password').value = '';
+
+          // Redirect the user to dashboard.html
+          window.location.href = "dashboard.html";
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert("Error logging in");
+        });
+    });
+  </script>
+</body>
+
+</html>

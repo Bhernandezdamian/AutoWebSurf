@@ -1,0 +1,176 @@
+/* Estilos generales */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+nav {
+  margin-left: auto;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Hero Section */
+#hero {
+  text-align: center;
+  padding: 40px;
+}
+
+#hero h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #ff5e3a;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+/* Video List Section */
+#video-list {
+  padding: 40px;
+}
+
+.video-card {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.video-thumbnail {
+  flex: 0 0 200px;
+  margin-right: 20px;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: auto;
+}
+
+.video-details {
+  flex: 1;
+}
+
+.video-details h4 {
+  font-size: 18px;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.video-details p {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #888;
+}
+
+.video-actions {
+  flex: 0 0 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.like-button,
+.share-button {
+  background-color: #ff5e3a;
+  color: #fff;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  #hero h2 {
+    font-size: 20px;
+  }
+
+  .cta-button {
+    font-size: 14px;
+  }
+
+  .video-card {
+    flex-direction: column;
+  }
+
+  .video-thumbnail {
+    flex: 0 0 auto;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .video-details {
+    flex: 1;
+  }
+
+  .video-actions {
+    flex: 0 0 auto;
+  }
+}
