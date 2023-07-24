@@ -115,10 +115,6 @@
     // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Configurar la referencia a la base de datos de Firebase
-    const database = firebase.database();
-    const usersRef = database.ref('users');
-
     // Función para mostrar las URLs aleatoriamente durante 20 segundos
     function showRandomUrls(urls) {
       // Función para obtener un índice aleatorio
@@ -140,11 +136,11 @@
         timerContainer.textContent = 'Tiempo restante: 30 segundos';
 
         if (isYouTubeUrl(randomUrl)) {
-          const videoId = getYouTubeVideoId(randomUrl);
-          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-          urlIframe.src = embedUrl;
-          videoContainer.style.display = 'block';
+          // Open YouTube URL in a new tab
+          window.open(randomUrl, '_blank');
+          videoContainer.style.display = 'none'; // Hide the video container since we're not using the iframe anymore
         } else if (isTikTokUrl(randomUrl)) {
+          // For TikTok, continue with the iframe approach
           const embedUrl = `https://www.tiktok.com/embed/v2/${getTikTokVideoId(randomUrl)}?autoplay=1`;
           urlIframe.src = embedUrl;
           videoContainer.style.display = 'block';
@@ -174,16 +170,6 @@
     function isYouTubeUrl(url) {
       const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+/;
       return youtubeRegex.test(url);
-    }
-
-    // Obtener el ID de video de YouTube desde una URL
-    function getYouTubeVideoId(url) {
-      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11}).*/;
-      const match = url.match(youtubeRegex);
-      if (match && match[4]) {
-        return match[4];
-      }
-      return null;
     }
 
     // Verificar si una URL es de TikTok
@@ -227,6 +213,8 @@
 
         // Función para mostrar las URLs de los demás usuarios
         function showOtherUsersUrls(currentUserId) {
+          const usersRef = firebase.database().ref('users');
+
           usersRef.once('value')
             .then(function(snapshot) {
               const users = snapshot.val();
@@ -280,12 +268,9 @@
 
     const dashboardButton = document.querySelector('#dashboard-button');
 
-  dashboardButton.addEventListener('click', function() {
-    window.location.href = "dashboard.html";
-  });
-
-
-
+    dashboardButton.addEventListener('click', function() {
+      window.location.href = "dashboard.html";
+    });
   </script>
 </body>
 
