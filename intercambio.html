@@ -135,18 +135,17 @@
         urlContainer.textContent = randomUrl;
         timerContainer.textContent = 'Tiempo restante: 30 segundos';
 
-        if (isYouTubeUrl(randomUrl)) {
-          // Open YouTube URL in a new tab
-          window.open(randomUrl, '_blank');
-          videoContainer.style.display = 'none'; // Hide the video container since we're not using the iframe anymore
-        } else if (isTikTokUrl(randomUrl)) {
-          // For TikTok, continue with the iframe approach
-          const embedUrl = `https://www.tiktok.com/embed/v2/${getTikTokVideoId(randomUrl)}?autoplay=1`;
-          urlIframe.src = embedUrl;
-          videoContainer.style.display = 'block';
+        if (isYouTubeUrl(randomUrl) || isTikTokUrl(randomUrl)) {
+          if (isYouTubeUrl(randomUrl)) {
+            window.open(randomUrl, '_blank');
+          } else if (isTikTokUrl(randomUrl)) {
+            const embedUrl = `https://www.tiktok.com/embed/v2/${getTikTokVideoId(randomUrl)}?autoplay=1`;
+            urlIframe.src = embedUrl;
+            videoContainer.style.display = 'block';
+          }
         } else {
-          urlIframe.src = '';
-          videoContainer.style.display = 'none';
+          urlIframe.src = randomUrl;
+          videoContainer.style.display = 'block';
         }
 
         // Temporizador de 20 segundos
@@ -266,8 +265,8 @@
       }
     });
 
+    // Event listener for the "EXIT" button
     const dashboardButton = document.querySelector('#dashboard-button');
-
     dashboardButton.addEventListener('click', function() {
       window.location.href = "dashboard.html";
     });
